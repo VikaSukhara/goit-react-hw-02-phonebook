@@ -16,19 +16,15 @@ export class App extends Component {
   };
 
   addContact = newContact => {
-    for (let i = 0; i < this.state.contacts.length; i++) {
-      if (
-        this.state.contacts[i].name.toLowerCase() ===
-        newContact.name.toLowerCase()
-      ) {
-        alert(`${newContact.name} is already in contacts`);
-        break;
-      } else {
-        this.setState(prevState => ({
-          contacts: [...prevState.contacts, { id: nanoid(), ...newContact }],
-        }));
-        break;
-      }
+    const isUnique = !this.state.contacts.some(
+      contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
+    );
+    if (isUnique) {
+      this.setState(prevState => ({
+        contacts: [...prevState.contacts, { id: nanoid(), ...newContact }],
+      }));
+    } else {
+      alert(`${newContact.name} is already in contacts`);
     }
   };
 
